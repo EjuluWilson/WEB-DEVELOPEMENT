@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./bower_components/chart.js/dist/chart.js"></script>
+    
+</head>
+<body>
+    <h1>Graphing here</h1>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <br><br><br><br>
+    <canvas id="teperature" width="400" height="400"></canvas>
+    
+    <!-- <script>
+        //Data from: https://data.giss.nasa.gov/gistemp/
+        async function getData(){
+            let response = await fetch("ZonAnn.Ts+dSST.csv");
+            let data = await response.text();//we getting text 
+
+            let dataArray = await data.split("\n").slice(1); //an Array line strings
+            //.slice(1) removes the first array value
+
+            dataArray.forEach(arrayValue =>{
+                let columns = arrayValue.split(",");
+                let year = columns[0];
+                let temp = columns[1];
+                console.log(year,temp);
+            })
+              
+        }
+        getData();
+    </script> -->
+    <!-- <script src="getData.js"></script> -->
+    <script type = "module" src="chartify.js"></script>
+    <!-- <script data-main ="/chartify.js" src="require.js"></script> -->
+</body>
+</html>

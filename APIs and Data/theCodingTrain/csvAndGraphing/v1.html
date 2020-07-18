@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>API Documentation | NASA POWER</title>
+   <link rel="shortcut icon" href="../../img/powerlogo.png">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+   <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect.
+  -->
+  <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
+        <script src="https://use.fontawesome.com/1bf69e28d2.js"></script>
+  <style>
+  .s {
+  margin-bottom: 30px;
+   position: relative;  
+  }
+  
+  #s2{
+  position: absolute;
+   bottom: 0px;
+   padding-left: 15px;
+	padding-right: 15px;   
+   padding: 5px;
+   margin-right: auto;
+   background-color:  white;
+   opacity: 0.9;
+   color: black
+  }
+  
+  	#earthdata-notification-banner{
+
+	position: absolute;
+	z-index: 9999;
+	width: 80%
+	}
+	
+	section {
+	word-wrap:break-word
+	}
+  </style>
+  
+<script language="JavaScript">if (top.frames.length!=0){top.location=self.document.location;}</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://status.earthdata.nasa.gov/assets/banner_widget.js"></script>
+<script>
+
+        $(function() {
+			
+			$("document").ready(function() {
+			
+			$.getJSON('../../RADAPP/GEODATA/powerWeb/POWER_Parameters_v110.json', function(data) {
+			
+			})
+			.done(function(data) {
+			
+			console.log(data)
+			
+				var table = $('#example1').DataTable();
+ 
+				for (d in data)
+				{
+				
+				paramvalue = d
+				parameter = data[paramvalue]
+				ptext = parameter["longname"]
+				include = parameter["include"]
+				
+				
+				
+				if (include.indexOf('DAILY') > -1) {
+				dcheck = '&#10003;' 
+				} else {
+				dcheck = '' 
+				}
+				if (include.indexOf('INTERANNUAL') > -1) {
+				icheck = '&#10003;' 
+				} else {
+				icheck = '' 
+				}
+				if (include.indexOf('CLIMATOLOGY') > -1) {
+				ccheck = '&#10003;' 
+				} else {
+				ccheck = '' 
+				}
+				
+				source= parameter["source"]
+				charts = source[0]
+				xchart = charts["xidentifier"]
+				
+				types = parameter["type"]
+				
+				if (types == "constant")
+				{}
+				
+				else{
+				
+				if (xchart == undefined)
+				{
+				single = '';
+				regional = '';
+				global = '';
+				}
+				
+				else {
+				if (xchart.indexOf('SinglePoint') > -1) {
+				single = '' 
+				} else {
+				single = '&#10003;' 
+				}
+				if (xchart.indexOf('Regional') > -1) {
+				regional = '' 
+				} else {
+				regional = '&#10003;' 
+				}
+				if (xchart.indexOf('Global') > -1) {
+				global = '' 
+				} else {
+				global = '&#10003;' 
+				}
+				}
+				
+				//dcheck
+				//icheck
+				//ccheck
+				if(ptext == 'Corrected Atmospheric Pressure (Adjusted For Site Elevation)'){
+				ptext = ptext + ' *(see Site Elevation section below)*'
+				}
+				
+				//else {
+				
+				var rowNode = table
+					.row.add( [ paramvalue, ptext, parameter["SSE_Units"],parameter["SB_Units"], parameter["AG_Units"], dcheck, icheck, ccheck, single, regional, global ] )
+					.draw()
+					.node();
+				//}
+				
+				}
+				
+				}
+			})
+			.fail(function(data) {
+			//alert('fail')
+			$('#mount').css('display', 'block')
+			})
+			 .always(function(data) {
+			});
+			
+			})
+			
+			$("#close3").click(function(){
+	
+        $('#mount').css('display','none');
+    });
+			
+		})
+
+</script>
+
+<!--<script type="text/javascript">
+
+$( document ).ready(function() {
+	
+	
+	var table = $('#example2');
+    $('#parametervalue, #parametername')
+        .wrapInner('<span title="Sort this column"/>')
+        .each(function(){
+            var th = $(this),
+            thIndex = th.index(),
+            inverse = false;
+			th.click(function(){
+            //alert('hello');
+			
+			$(function () {
+			table.find('td').filter(function(){
+                    alert('hello2');
+                    return $(this).index() === thIndex;
+                    alert('hello21');
+                }).sortElements(function(a, b){
+                    alert('hello23');
+                    return $.text([a]) > $.text([b]) ?
+                        inverse ? -1 : 1
+                        : inverse ? 1 : -1;
+                    
+                }, function(){
+                    
+                    // parentNode is the element we want to move
+                    return this.parentNode; 
+                    
+                });
+				
+					});
+                
+                inverse = !inverse;
+			alert('hello2');
+            });
+        });
+		
+	
+		
+	});
+		
+		
+</script>-->
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body id='body' class="hold-transition skin-blue sidebar-mini">
+
+
+
+<?php include_once("analyticstracking.php") ?>
+
+
+
+<div class="wrapper">
+
+  <!-- Main Header -->
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>&lt;/P&gt;</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>POWER</b> &lt;/DOCS&gt;</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="https://power.larc.nasa.gov/data-access-viewer/images/app-logo.png" class="img-circle" alt="User Image">
+        </div>
+        <!--<div class="pull-left info">
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>-->
+      </div>
+
+      <!-- search form (Optional) 
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>--> 
+      <!-- /.search form -->
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu">
+        <li class="header">Table of Contents</li>
+        <li class="active"><a href="#introduction"><i class="fa fa-circle-o"></i>Introduction</a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-download"></i> <span>Data Access Service</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li><a href="#request"><i class="fa fa-circle-o"></i>Request</a></li>
+          <li><a href="#identifier"><i class="fa fa-circle-o"></i>Identifier</a></li>
+          <li><a href="#parameters"><i class="fa fa-circle-o"></i>Parameters</a></li>
+          <li><a href="#startEndDates"><i class="fa fa-circle-o"></i>Start/End Dates</a></li>
+          <li><a href="#latloncoords"><i class="fa fa-circle-o"></i>Latitude/Longitude Coords</a></li>
+          <li><a href="#userCommunity"><i class="fa fa-circle-o"></i>User Community</a></li>
+          <li><a href="#outputs"><i class="fa fa-circle-o"></i>Output Formats</a></li>
+          <li><a href="#user"><i class="fa fa-circle-o"></i>User</a></li>
+          <li><a href="#siteelevation"><i class="fa fa-circle-o"></i>Site Elevation</a></li>
+          </ul>
+        </li>
+		
+		<li class="treeview">
+          <a href="#"><i class="fa fa-download"></i> <span>ArcGIS Image Services</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li><a href="#catalogue"><i class="fa fa-circle-o"></i>Service Catalog</a></li>
+          <li><a href="#desktop"><i class="fa fa-circle-o"></i>ArcGIS Desktop Access</a></li>
+		   <!--<li><a href="#online"><i class="fa fa-circle-o"></i>ArcGIS Online Access</a></li>-->
+          <li><a href="#web"><i class="fa fa-circle-o"></i>Web API Access</a></li>
+          
+          </ul>
+        </li>
+        <!-- Optionally, you can add icons to the links -->
+
+        <li><a href="#examples"><i class="fa fa-code"></i>Code Examples</a></li>
+        <!--<li><a href="api" target="_blank"><i class="fa fa-external-link-square"></i>Test It Out</a></li>-->
+
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+	
+	<div id='banner'  class="alert alert-danger" role="alert" style='display:none'> Please be aware that the POWER archive server will under go a comprehensive and required maintenance from Friday January 19, 2018 through Friday January 26, 2018 which may impact the availability of the POWER data. We apologize for any inconvenience this may cause.</div>
+	
+	<div id="earthdata-notification-banner" ></div>
+	
+      <h1 id="introduction">
+        Introduction
+        <small>| Make your apps POWERful.</small>
+      </h1>
+
+      <p class="lead">The POWER Technical Documentation provides users with information on available web services, examples on using the services in sample programming languages and provides a user interface to test out a constructed HTTPS URL. Any questions or comments can be directed to the <a href="mailto:power-project@lists.nasa.gov">POWER team</a>.<br><br>
+	  <a target='_blank' href="../../index.php#ack"><font size='5' color='orange'>POWER Acknowledgements</font></a></p>
+	  
+	   <div class="callout callout-danger" id='mount' style='display:none;cursor: pointer;'>
+        <h4>NOTICE</h4>
+          <p>POWER data access appears to be temporarily unavailable. Parameter information and data may be inaccessible at this time. Please try again shortly and we apologize for this inconvenience. If you have any questions please do not hesitate to contact the <a href="mailto:power-project@lists.nasa.gov" style='color:white'>POWER team</a>.&nbsp;&nbsp;&nbsp;&nbsp;<i id='close3' class="fa fa-window-close" aria-hidden="true"></i> </p> 
+
+        </div>
+		
+    </section>
+     <hr style="border-top: dotted 1px; color:#D3D3D3" />
+    <!-- Main content -->
+<!-- Main content -->
+    <div class="content body">
+    <h3>
+        Data Access Service
+        <small>| version 1.1.0</small>
+      </h3>
+
+      <div class="callout callout-info">
+        <h4>NOTES</h4>
+          <p>1. All requested data files will be unavailable after a <b>48 hour period.</b> You will need to make a new request if you need the data file after that period.</p> 
+
+          <p>2. Please consider <b>joining our mailing list</b>. Since POWER is an active site, we perform regular updates and revisions. By joining the mailing list, we will inform you of changes to the website, API and/or data that might impact the use of the data. The mailing list sign up is found at this web site: https://eosweb.larc.nasa.gov/news-lists-registration. (Hint: Under projects select "SSE".)</p>
+        </div>
+
+
+      <section id="introduction2">
+	  
+	  
+      <p>Make HTTPS GET calls to the POWER data archives directly. Integrate the service into your own applications.</p>
+	  <p><b>Depracated Base URL:</b> https://asdc-arcgis.larc.nasa.gov/cgi-bin/power/v1beta/DataAccess.py?<br><font color='red'>(The POWER team will no longer be improving the performance and enhancements of data for this API url.  Please see the new base URL below for the latest parameters and improvements.)</font></p>
+      <p><b>NEW Base URL:</b> https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?<br><font color='red'>(See below for description of input parameters to the GET calls)</font></p>
+      <p><b>Sample SinglePoint URL:</b> https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&ampidentifier=SinglePoint&ampparameters=T2M,PS,ALLSKY_SFC_SW_DWN&ampstartDate=20160301&ampendDate=20160331&ampuserCommunity=SSE&amptempAverage=DAILY&ampoutputList=JSON,ASCII&amplat=36&amplon=45&ampuser=anonymous</p>
+
+      <p><b>Sample Regional URL:</b> https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&ampidentifier=Regional&ampparameters=T2M,ALLSKY_SFC_SW_DWN&ampstartDate=19830701&ampendDate=19830705&ampuserCommunity=SSE&amptempAverage=DAILY&ampoutputList=ASCII&ampbbox=-40,-70,-38,-66&ampuser=anonymous</p>
+
+      <p><b>Sample Global URL:</b> https://power.larc.nasa.gov/cgi-bin/v1/DataAccess.py?request=execute&ampidentifier=Global&ampparameters=T2M,ALLSKY_SFC_SW_DWN,PS&ampuserCommunity=SSE&amptempAverage=CLIMATOLOGY&ampoutputList=NETCDF&ampuser=anonymous</p>
+
+	 
+	  
+      </section>
+
+
+      <section id="request"><br>
+      <h2 class="page-header"><a href="#request">Requests</a></h2>
+      <p class="lead">https://...?<b>request=execute</b></p>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Requests</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2bc" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                  <th>Data Type</th>
+                  <th>Parameter Type</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>request</td>
+                  <td>execute</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Single select option</td>
+                </tr>
+                </tbody>
+                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+            <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Available Requests</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example22" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>execute</td>
+                  <td>This request executes the user request and provides a JSON response.</td>
+                </tr>
+                </tbody>
+                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      </section>
+
+      <section id="identifier">
+      <h2 class="page-header"><a href="#identifier">Identifiers</a></h2>
+      <p class="lead">https://...?<b>identifier=SinglePoint</b></p>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Identifiers</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example22m" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value</th>
+                  <th>Data Type</th>
+                  <th>Parameter Type</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>identifier</td>
+                  <td>SinglePoint</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Single select option</td>
+                </tr>
+                <tr>
+                  <td>identifier</td>
+                  <td>Regional</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Regional Bounding Box select option</td>
+                </tr>
+                <tr>
+                  <td>identifier</td>
+                  <td>Global</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Global select option</td>
+                </tr>
+                </tbody>
+               
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+            <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Available Identifiers</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2k" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>SinglePoint</td>
+                  <td>The Single Point endpoint returns a time series based on a single latitude and longitude coordinate across the time span provided. The response is JSON by default and the data values are provided by default within the response. Additional <a href="#outputs">outputs</a> are available if requested.</td>
+                </tr>
+                <tr>
+                  <td>Regional</td>
+                  <td>The Regional endpoint returns a time series based on a bounding box of lower left (lat,lon) and upper right (lat,lon) coordinates across the time span provided. The response is JSON by default <b>but does not provide the data values</b> in the default JSON response. However, if JSON data values are required the user must specify JSON in the <a href="#outputs">output parameter</a> and select the downloadble JSON file. Additional <a href="#outputs">outputs</a> are available if requested.</td>
+                </tr>
+                <tr>
+                  <td>Global</td>
+                  <td>The Global endpoint returns long term climatological averages for the entire globe. The response is JSON by default <b>but does not provide the data values</b> in the default JSON response. However, if JSON data values are required the user must specify JSON in the <a href="#outputs">output parameter</a> and select the downloadble JSON file. Additional <a href="#outputs">outputs</a> are available if requested.</td>
+                </tr>
+                </tbody>
+                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+
+      </section>
+
+      <section id="parameters">
+      <h2 class="page-header"><a href="#parameters">Parameters</a></h2>
+      <p class="lead">https://...?<b>parameters=T2M,PS</b></p>
+        <div class="callout callout-info">
+        <h4>Note</h4>
+          <p>If "ICASA" output is requested, all parameters required for ICASA output will automatically be appended to your parameters query.
+        </div>
+      
+    <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Data Parameters</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2b" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>parameters</td>
+                    <td>Only a max of 20 parameters per submission permitted.</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint</td>
+                    <td>Multiple select list seperated by comma.</td>
+                  </tr>
+                  <tr>
+                    <td>parameters</td>
+                    <td>Only a max of 20 parameters per submission permitted.</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Regional</td>
+                    <td>Multiple select list seperated by comma</td>
+                  </tr>
+                  <tr>
+                    <td>parameters</td>
+                    <td>Only a max of 3 parameters per submission permitted.</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Global</td>
+                    <td>Multiple select list seperated by comma.</td>
+                  </tr>
+                  </tbody>
+                  
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div id='box' class="box">
+            <div class="box-header">
+              <h3 class="box-title">Available Values</h3>
+			  <div align="right">
+                  *Units based on <a href="#userCommunity">user community</a> value selected.
+                </div>
+            </div>
+			
+		
+            <!-- /.box-header -->
+			
+			
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+               
+                <tr role='row'>
+                  <th style="width:200px;">Value</th>
+                  <th style='width: 400px;'>Name</th>
+                  <th>SSE Units*</th>
+                  <th>SB Units*</th>
+                  <th>AG Units*</th>
+                  <th>Daily</th>
+                  <th>Interannual</th>
+                  <th>Climatology</th>
+				  <th>SinglePoint</th>
+                  <th>Regional</th>
+                  <th>Global</th>
+                </tr>
+                </thead>
+                <tbody id='parameterbody'>
+				
+				
+				<!--
+                <tr>
+                  <td>T2M</td>
+                  <td>Temperature at 2 Meters</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                 
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                
+				
+				<tr>
+                  <td>T2M_MIN</td>
+                  <td>Minimum Temperature at 2 Meters</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>T2M_MAX</td>
+                  <td>Maximum Temperature at 2 Meters</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>T2MDEW</td>
+                  <td>Temperature Dew/Frost Point at 2 Meters</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>T2MWET</td>
+                  <td>Wet Bulb Temperature At 2 Meters</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>TS</td>
+                  <td>Earth Skin Temperature</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>C</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>PS</td>
+                  <td>Atmospheric Pressure</td>
+                  <td>kPa</td>
+                  <td>kPa</td>
+                  <td>kPa</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>RH2M</td>
+                  <td>Relative Humidity at 2 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>QV2M</td>
+                  <td>Specific Humidity at 2 Meters</td>
+                  <td>kg/kg</td>
+                  <td>kg/kg</td>
+                  <td>kg/kg</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>PRECTOT</td>
+                  <td>Precipitation</td>
+                  <td>mm/day</td>
+                  <td>mm/day</td>
+                  <td>mm/day</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS2M</td>
+                  <td>Wind Speed at 2, 10, 50 Meters</td>
+                  <td>m/s</td>
+                  <td>m/s</td>
+                  <td>m/s</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>HDD18_3</td>
+                  <td>Heating Degree Days Below 18.3 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>HDD10</td>
+                  <td>Heating Degree Days Below 10 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>HDD0</td>
+                  <td>Heating Degree Days Below 0 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>CDD18_3</td>
+                  <td>Cooling Degree Days Above 18.3 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>CDD10</td>
+                  <td>Cooling Degree Days Above 10 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>CDD0</td>
+                  <td>Cooling Degree Days Above 0 C</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>Degree C-d</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>ALLSKY_SFC_SW_DWN</td>
+                  <td>Insolation On A Horizontal Surface</td>
+                  <td>kW/m^2/day</td>
+                  <td>kW/m^2/day</td>
+                  <td>MJ/m^2/day</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>ALLSKY_TOA_SW_DWN</td>
+                  <td>Top-Of-Atmosphere Insolation</td>
+                  <td>kW/m^2/day</td>
+                  <td>kW/m^2/day</td>
+                  <td>MJ/m^2/day</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>CLRSKY_SFC_SW_DWN</td>
+                  <td>Clear Sky Insolation On A Horizontal Surface</td>
+                  <td>kW/m^2/day</td>
+                  <td>kW/m^2/day</td>
+                  <td>MJ/m^2/day</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>ALLSKY_SFC_LW_DWN</td>
+                  <td>Longwave Insolation On A Horizontal Surface</td>
+                  <td>kW/m^2/day</td>
+                  <td>kW/m^2/day</td>
+                  <td>MJ/m^2/day</td>
+                  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+        				  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS50M_MIN_DIFF</td>
+                  <td>Minimum Difference of Wind Speed at 50 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS10M_MIN_DIFF</td>
+                  <td>Minimum Difference of Wind Speed at 10 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS20M_MIN_DIFF</td>
+                  <td>Minimum Difference of Wind Speed at 2 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS50M_MAX_DIFF</td>
+                  <td>Maximum Difference of Wind Speed at 50 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS10M_MAX_DIFF</td>
+                  <td>Maximum Difference of Wind Speed at 10 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+                <tr>
+                  <td>WS20M_MAX_DIFF</td>
+                  <td>Maximum Difference of Wind Speed at 2 Meters</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td>%</td>
+                  <td></td>
+                  <td></td>
+                  <td>&#10003;</td>
+                </tr>
+         -->
+			
+
+               
+				<!--</tbody>-->
+				
+				
+			  </table>
+			  
+			  
+			 
+            </div>
+		
+			
+			
+			
+            <!-- /.box-body -->
+         </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      </section>
+
+      <section id="startEndDates">
+      <h2 class="page-header"><a href="#startEndDates">Start & End Dates</a></h2>
+      <p class="lead">https://...?<b>startDate=YYYYMMDD&endDate=YYYYMMDD</b></p>
+            <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Start & End Dates</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2ds" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value/Format</th>
+                  <th>Data Type</th>
+                  <th>Parameter Type</th>
+                  <th>Name</th>
+                  <th>Required For</th>
+                  <th>Identifier</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>startDate</td>
+                  <td>YYYYMMDD</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Start Date</td>
+                  <td>DAILY</td>
+                  <td>SinglePoint, Regional</td>
+                  <td>Start date of time series.</td>
+                </tr>
+                <tr>
+                  <td>endDate</td>
+                  <td>YYYYMMDD</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>End Date</td>
+                  <td>DAILY</td>
+                  <td>SinglePoint, Regional</td>
+                  <td>End date of time series.</td>
+                </tr>
+                <tr>
+                  <td>startDate</td>
+                  <td>YYYY</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Start Year</td>
+                  <td>INTERANNUAL</td>
+                  <td>SinglePoint, Regional</td>
+                  <td>Start Year of interannual time series.</td>
+                </tr>
+                <tr>
+                  <td>endDate</td>
+                  <td>YYYY</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>End Year</td>
+                  <td>INTERANNUAL</td>
+                  <td>SinglePoint, Regional</td>
+                  <td>End year of interannual time series.</td>
+                </tr>
+                <tr>
+                  <td>startDate</td>
+                  <td>Not Required</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Start Year</td>
+                  <td>CLIMATOLOGY</td>
+                  <td>SinglePoint, Regional, Global</td>
+                  <td>Not Required</td>
+                </tr>
+                <tr>
+                  <td>endDate</td>
+                  <td>Not Required</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>End Year</td>
+                  <td>CLIMATOLOGY</td>
+                  <td>SinglePoint, Regional, Global</td>
+                  <td>Not Required</td>
+                </tr>
+                </tbody>
+                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      </section>
+
+      <section id="latloncoords">
+      <h2 class="page-header"><a href="#latloncoords">Latitude & Longitude Coordinates</a></h2>
+      <p class="lead">https://...?<b>lat=34.21&lon=56.78</b></p>
+            <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Latitude and Longitude Coordinates</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example24" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Value/Format</th>
+                  <th>Data Type</th>
+                  <th>Parameter Type</th>
+                  <th>Name</th>
+                  <th>Identifier</th>
+                  <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>lat</td>
+                  <td>decimal degrees</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Latitude</td>
+                  <td>SinglePoint</td>
+                  <td>Latitudinal coordinate in decimal degrees</td>
+                </tr>
+                <tr>
+                  <td>lon</td>
+                  <td>decimal degrees</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Longitude</td>
+                  <td>SinglePoint</td>
+                  <td>Longitudinal coordinate in decimal degrees</td>
+                </tr>
+                <tr>
+                  <td>bbox</td>
+                  <td>lower-left latitude,lower-left longitude,upper-right latitude,upper-right longitude (decimal degrees and no spaces between commas)</td>
+                  <td>String</td>
+                  <td>Query</td>
+                  <td>Bounding Box</td>
+                  <td>Regional</td>
+                  <td>Bounding box of coordinates. Max bounding box is 10 x 10 degrees of 1/2 x 1/2 degree data. (e.g. 100 Points Max Total)</td>
+                </tr>
+                </tbody>
+               
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      
+
+      </section>
+
+      <section id="userCommunity">
+      <h2 class="page-header"><a href="#userCommunity">User Community</a></h2>
+      <p class="lead">https://...?<b>userCommunity=SSE</b></p>
+      <p>Selecting a user community will affect the units of the parameter and the temporal display of time series data (e.g. Agroclimatology will use Julian Day of Year)</p>
+
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">User Community Parameter</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>userCommunity</td>
+                    <td>SSE, SB, AG</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint, Regional, Global</td>
+                    <td>User community of interest.</td>
+                  </tr>
+                  </tbody>
+                  
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Available Values</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Value</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>SSE</td>
+                    <td>Surface meteorology and Solar Energy</td>
+                    <td>The Renewable Energy Archive is designed to provide access to parameters specifically tailored to assist in the design of solar and wind powered renewable energy systems.</td>
+                  </tr>
+                  <tr>
+                    <td>SB</td>
+                    <td>Sustainable Buildings</td>
+                    <td>The Sustainable Buildings Archive is designed to provide industry-friendly parameters for the buildings community, to include parameters in multi-year monthly averages.</td>
+                  </tr>
+                  <tr>
+                    <td>AG</td>
+                    <td>Agroclimatology</td>
+                    <td>The Agroclimatology Archive is designed to provide web-based access to industry-friendly parameters formatted for input to crop models contained within agricultural DSS.</td>
+                  </tr>
+                  </tbody>
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+      </section>
+
+      <section id="tempAverage">
+      <h2 class="page-header"><a href="#tempAverage">Temporal Average</a></h2>
+      <p class="lead">https://...?<b>tempAverage=DAILY</b></p>
+
+              <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Temporal Averages</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2bv" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>tempAverage</td>
+                    <td>DAILY, INTERANNUAL, CLIMATOLOGY</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint</td>
+                    <td>Only one value permitted.</td>
+                  </tr>
+                  <tr>
+                    <td>tempAverage</td>
+                    <td>DAILY, INTERANNUAL, CLIMATOLOGY</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Regional</td>
+                    <td>Only one value permitted.</td>
+                  </tr>
+                  <tr>
+                    <td>tempAverage</td>
+                    <td>CLIMATOLOGY</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Global</td>
+                    <td>Only one value permitted.</td>
+                  </tr>
+                  </tbody>
+                  
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+                      <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Available Values</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Value</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>DAILY</td>
+                    <td>Daily average by year.</td>
+                  </tr>
+                  <tr>
+                    <td>INTERANNUAL</td>
+                    <td>Monthly and annual average By year.</td>
+                  </tr>
+                  <tr>
+                    <td>CLIMATOLOGY
+                    <td>Long term monthly averages.</td>
+                  </tr>
+                  </tbody>
+                  
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+      </section>
+
+      <section id="outputs">
+      <h2 class="page-header"><a href="#outputs">Output Formats</a></h2>
+      <p class="lead">https://...?<b>outputList=JSON,ASCII</b></p>
+
+      <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Output Parameter</h3>
+				<h5>Note: JSON is the default response for all data requests.  Please see the "outputs" section at the bottom of the JSON response for a link to the requested file.</h5>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>outputList</td>
+                    <td>JSON, ASCII, CSV, ICASA, NETCDF</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint</td>
+                    <td>Multiple select list seperated by comma</td>
+                  </tr>
+                  <tr>
+                    <td>outputList</td>
+                    <td>JSON, ASCII, CSV, ICASA, NETCDF</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Regional</td>
+                    <td>If data values are required in JSON format, please choose JSON as output type as the data values are not provided in the default JSON response. ICASA is not available for Interannual or Climatology regional selection.</td>
+                  </tr>
+                  <tr>
+                    <td>outputList</td>
+                    <td>JSON, ASCII, CSV, NETCDF, GEOTIFF</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>Global</td>
+                    <td>If data values are required in JSON format, please choose JSON as output type as the data values are not provided in the default JSON response. ICASA is not available for  Global selection.</td>
+                  </tr>
+                  </tbody>
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Available Values</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Value</th>
+                    <th>Version</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>JSON</td>
+                    <td>1.0</td>
+                    <td>Default response. Structured using <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON Feature Collection Standards</a></td>
+                  </tr>
+                  <tr>
+                    <td>ASCII</td>
+                    <td>n/a</td>
+                    <td>Text based output with header and column information.</td>
+                  </tr>
+                  <tr>
+                    <td>CSV</td>
+                    <td>n/a</td>
+                    <td>Text based comma seperated values format.</td>
+                  </tr>
+                  <tr>
+                    <td>ICASA</td>
+                    <td>4.6</td>
+                    <td>Internet based formatted output for input to crop models contained within the agricultural <a href="http://dssat.net/" target="_blank">Decision Support System for Agrotechnology Transfer (DSSAT)</a> software.</td>
+                  </tr>
+                  <tr>
+                    <td>NETCDF</td>
+                    <td>4</td>
+                    <td>Climate Forecast version 1.6 compliant.</td>
+                  </tr>
+                  <tr>
+                    <td>GEOTIFF</td>
+                    <td>n/a</td>
+                    <td>Geospatially referenced Tiff format.</td>
+                  </tr>
+                  </tbody>
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+      </section>
+
+<section id="user">
+      <h2 class="page-header"><a href="#user">User</a></h2>
+      <p class="lead">https://...?<b>user=anonymous</b></p>
+
+      <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">User Parameter</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>user</td>
+                    <td>USER</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint, Regional, Global</td>
+                    <td>If you wish to place a user (e.g. organizationname) with no spaces it will help tailor our data and capabilities to better meet the requirements for our misson partners.</td>
+                  </tr>
+                  
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    
+      </section>
+
+      <section id="siteelevation">
+      <h2 class="page-header"><a href="#siteelevation">Site Elevation</a></h2>
+      <p class="lead">https://...?<b>siteElev=10.34</b></p>
+
+      <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">User Provided Site Elevation</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Data Type</th>
+                    <th>Parameter Type</th>
+                    <th>Identifier</th>
+                    <th>Temporal</th>
+                    <th>Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>siteElev</td>
+                    <td>number</td>
+                    <td>String</td>
+                    <td>Query</td>
+                    <td>SinglePoint</td>
+                    <td>DAILY</td>
+                    <td>If you wish pass your own site elevation (in meters) you will receive a corrected atmospheric pressure value upon adjusted to the elevation you provided.</td>
+                  </tr>
+                  
+                 
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    
+      </section>
+
+
+
+      <section id="examples">
+      <h3>
+        Code Examples
+        <small>| JavaScript</small>
+      </h3>
+	  <p>JavaScript - SinglePoint data request</p>
+	  <div class='box'><div class='box-body'>
+	  <h4>
+	  <small>
+	  $(document).ready( <font color="#1665cb"> function </font>() {<br><br>
+
+<font color='#2a9b28'>//create POWER url</font>	<br>
+url = <a href='#introduction'>singlepoint URL</a><br><br>
+
+<font color='#2a9b28'>//request data</font><br>
+$.getJSON( url, <font color="#1665cb">function</font>( data ) {
+<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}).done( <font color="#1665cb">function</font> ( data ) {<br><br>
+
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='#2a9b28'>//access the data values within the json data response </font><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;features = data["features"];<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;properties = features[0].properties;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parameter = properties.parameter;<br><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#1665cb">for </font> (<font color="#1665cb"> var</font> p in parameter ) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#1665cb">var</font> values = features[0].properties.parameter[p];<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#1665cb">for </font> (<font color="#1665cb"> var</font> v in values ){	<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#1665cb">var</font> powervalue = values[v];<br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+	});<br>
+});
+</small>
+</h4>
+	  
+	  </div></div>
+
+      <!--<h3>Python</h3>
+
+      <pre class="hierarchy bring-up"><code class="language-bash" data-lang="bash">
+      import requests
+      
+      x = "Hello World"
+      print x
+      </code></pre>
+
+      <h3>JavaScript</h3>
+      <pre class="hierarchy bring-up"><code class="language-bash" data-lang="bash">
+      import requests
+      
+      x = "Hello World"
+      print x
+      </code></pre>-->
+	  <br><br>
+      </section>
+	  
+	        <section id="catalogue">
+      <h3 class="page-header">ArcGIS Image Services</h3>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h2>Solar Data</h2>
+			  
+						<h5><b>REST Endpoint:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power/power_601_22years_lst/ImageServer
+						<br><br>
+						<b>Spatial Resolution:</b>  1 x 1 degree<br>
+						Solar parameters for ArcGIS Image Services are provided in 1x1 degree spatial resolution. This data is available in ½ by ½ degree resolution via the custom POWER API Data Access Service (see above). Updates to the solar ArcGIS Image Services will be coming shortly.
+			
+						</h5>
+						
+						
+						<hr>
+						
+						<div class="row">
+                <div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/all_sky_sw_dwn.png' width='100%'>
+				<div id='s2'><font size='2'>Insolation on Horizontal Surface</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/all_sky_sw_dwn_min.png' width='100%'>
+				<div id='s2'><font size='2'>Minimum Insolation on Horizontal Surface</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/all_sky_sw_dwn_max.png' width='100%'>
+				<div id='s2'><font size='2'>Maximum Insolation on Horizontal Surface</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/clr_sky.png' width='100%'>
+				<div id='s2'><font size='2'>Clear Sky Insolation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/dir_nrml.png' width='100%'>
+				<div id='s2'><font size='2'>Direct Normal Radiation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/dir_nrml_min.png' width='100%'>
+				<div id='s2'><font size='2'>Minimum Direct Normal Radiation</font></div>
+				</div>
+				
+		
+				
+				
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/dir_nrml_max.png' width='100%'>
+				<div id='s2'><font size='2'>Maximum Direct Normal Radiation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/clrskydays.png' width='100%'>
+				<div id='s2'><font size='2'>Clear Sky Days</font></div>
+				</div>
+				  <div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/lat_tilt.png' width='100%'>
+				<div id='s2'><font size='2'>Latitude Tilt Radiation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/lat_tilt_min.png' width='100%'>
+				<div id='s2'><font size='2'>Minimum Latitude Tilt Radiation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/lat_tilt_max.png' width='100%'>
+				<div id='s2'><font size='2'>Maximum Latitude Tilt Radiation</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/nosun.png' width='100%'>
+				<div id='s2'><font size='2'>Maximum NO-SUN or BLACK Days</font></div>
+				</div>
+				
+				
+				
+                <div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/surface.png' width='100%'>
+				<div id='s2'><font size='2'>Surface Albedo</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/toa.png' width='100%'>
+				<div id='s2'><font size='2'>Top of Atmosphere Insolation</font></div>
+				</div>
+				
+				</div>
+				
+				
+				
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+            <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+             <h2>Meteorological Data</h2><h5><b>REST Endpoint:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power_climatology/power_801_climatology_1984_2013_lst/ImageServer
+						<br><br><b>Spatial Resolution:</b>  0.5 x 0.5 degree
+						
+						</h5><hr>
+						
+						<div class="row">
+                <div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/t2m.png' width='100%'>
+				<div id='s2'><font size='2'>Temperature at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/t2m_min.png' width='100%'>
+				<div id='s2'><font size='2'>Minimum Temperature at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/t2m_max.png' width='100%'>
+				<div id='s2'><font size='2'>Maximum Temperature at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/t2m_range.png' width='100%'>
+				<div id='s2'><font size='2'>Daily Temperature Range at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/dew.png' width='100%'>
+				<div id='s2'><font size='2'>Dew/Frost Point at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/wbulb.png' width='100%'>
+				<div id='s2'><font size='2'>Wet Bulb Temperature at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/ts.png' width='100%'>
+				<div id='s2'><font size='2'>Earth Skin Temperature</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/ps.png' width='100%'>
+				<div id='s2'><font size='2'>Surface Pressure</font></div>
+				</div>
+				
+				
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/ws2m.png' width='100%'>
+				<div id='s2'><font size='2'>Wind Speed at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/ws10m.png' width='100%'>
+				<div id='s2'><font size='2'>Wind Speed at 10 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/ws50m.png' width='100%'>
+				<div id='s2'><font size='2'>Wind Speed at 50 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/prectot.png' width='100%'>
+				<div id='s2'><font size='2'>Precipitation</font></div>
+				</div>
+				
+				
+                <div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/cdd0.png' width='100%'>
+				<div id='s2'><font size='2'>Cooling Degree Days Above 0 C</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/cdd10.png' width='100%'>
+				<div id='s2'><font size='2'>Cooling Degree Days Above 10 C</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/cdd18.png' width='100%'>
+				<div id='s2'><font size='2'>Cooling Degree Days Above 18.3 C</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/rh2m.png' width='100%'>
+				<div id='s2'><font size='2'>Relative Humidity at 2 Meters</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/hdd0.png' width='100%'>
+				<div id='s2'><font size='2'>Heating Degree Days Below 0 C</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/hdd10.png' width='100%'>
+				<div id='s2'><font size='2'>Heating Degree Days Below 10 C</font></div>
+				</div>
+			
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/hdd18.png' width='100%'>
+				<div id='s2'><font size='2'>Heating Degree Days Below 18.3 C</font></div>
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+				<img src='../../power-images/qv2m.png' width='100%'>
+				<div id='s2'><font size='2'>Specific Humidity at 2 Meters</font></div>
+				</div>
+				
+				</div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+	  
+	  
+      <!-- /.row -->
+
+      </section>
+	  
+	  
+	<section id="desktop">
+      <h2 class="page-header"><a href="#desktop">ArcGIS Desktop Access</a></h2>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h2>Desktop Access</h2><h5>Access POWER Image Services in various desktop applications for further analysis, visualization, and geoprocessing (ArcGIS Desktop, ArcGIS Earth, ArcGlobe)</h5><hr>
+				
+				<div class="row">
+               <div class="col-md-3 col-md-offset-0 s">
+			   1. In ArcMap, double click "Add ArcGIS Server"
+				<img src='../../power-images/desk.png' width='100%'>		
+				</div>
+				<div class="col-md-3 col-md-offset-0 s">
+			   2. Check "Use GIS Services" and click Next
+				<img src='../../power-images/desk2.png' width='100%'>		
+				</div>
+			<div class="col-md-3 col-md-offset-0 s">
+			   3. Enter the REST Endpoint URL, and click Finish
+				<img src='../../power-images/desk3.png' width='100%'>		
+				</div>
+				
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+     
+
+      </section>
+	  
+	  <section id="desktop" style='display:none'>
+      <h2 class="page-header"><a href="#desktop">ArcGIS Online Access</a></h2>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h2>ArcGIS Online Access</h2><h5>Access POWER Image Services in ArcGIS Online and share using templates such as Insights for ArcGIS, Web AppBuilder, Operations Dashboard.</h5><hr>
+				
+				<div class="row">
+               <div class="col-md-3 col-md-offset-0 s">
+			   Step 1. In ArcMap, double click "Add ArcGIS Server"
+				<img src='../../power-images/desk.png' width='100%'>		
+			
+				</div>
+				
+			
+				
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+     
+
+      </section>
+
+	  
+	  	  
+	<section id="web">
+      <h2 class="page-header"><a href="#web">Web API Access</a></h2>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h2>Web Access</h2><h5>Access POWER Image Services and data in web and mobile applications using open source Web APIs and SDKs (JavaScript, Python, RStudio).</h5>
+			  <b>Identify task</b> - The identify operation is performed on a map service resource. The result of this operation is an identify results resource. Each identified result includes its name, layer ID, layer name, geometry and geometry type, and other attributes of that result as name-value pairs.  You can provide arguments to the identify operation as query parameters.<br><br>
+			  <b>Export Image task</b> - The export image operation is performed on an image service resource. The result of this operation is an image resource. This resource provides information about the exported image, such as its URL, its width and height, and extent.
+
+Apart from the usual response formats of html and json, users can also request a format called image while performing this operation. When users perform an export with the format of image, the server responds by directly streaming the image bytes to the client. With this approach you don't get any information associated with the exported image besides the actual image.  Users can provide arguments to the export image operation as query parameters. These parameters include the request extent, size information, interpolation, pixel type, and so on. 
+			  <hr>
+			  <h3>Solar Data</h3>
+			 
+				<b>Sample Identify Task:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power/power_601_22years_lst/ImageServer/identify?f=json&geometry={"x":-8308523,"y":4036000,"spatialReference":{"wkid":102100}}&returnGeometry=false&returnCatalogItems=true&mosaicRule={"mosaicMethod":"esriMosaicNone","where":"","ascending":true,"mosaicOperation":"MT_FIRST","multidimensionalDefinition":[{"variableName":"allsky_sfc_sw_dwn","dimensionName":"time","values":["1"],"isSlice":true}]}&geometryType=esriGeometryPoint&pixelSize={"x":19567,"y":19567,"spatialReference":{"wkid":102100}}&renderingRules=[{"rasterFunction":"power_600_22years_1983_2005_allsky_sfc_sw_dwn","variableName":"Raster"}]
+						<br><br>
+						<b>Sample Export Image Task:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power/power_601_22years_lst/ImageServer/exportImage?f=image&renderingRule={"rasterFunction":"power_600_22years_1983_2005_allsky_sfc_sw_dwn","variableName":"Raster"}&mosaicRule={"mosaicMethod":"esriMosaicNone","where":"","ascending":true,"mosaicOperation":"MT_FIRST","multidimensionalDefinition":[{"variableName":"allsky_sfc_sw_dwn","dimensionName":"time","values":["1"],"isSlice":true}]}&bbox=-17720673,-2910596,12335588,4818715&imageSR=102100&bboxSR=102100&size=1536,395
+						
+					
+					<br><hr>
+				<h3>Meteorological Data</h3>
+				
+					<b>Sample Identify Task:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power_climatology/power_801_climatology_1984_2013_lst/ImageServer/identify?f=json&geometry={"x":-5647292,"y":4290383,"spatialReference":{"wkid":102100}}&returnGeometry=false&returnCatalogItems=true&mosaicRule={"mosaicMethod":"esriMosaicNone","where":"\"slice_alias\" = 'January'","ascending":true,"mosaicOperation":"MT_FIRST","multidimensionalDefinition":[{"variableName":"cdd0","dimensionName":"datatype","values":[0],"isSlice":true}]}&geometryType=esriGeometryPoint&pixelSize={"x":19567,"y":19567,"spatialReference":{"wkid":102100}}&renderingRules=[{"rasterFunction":"Aggregate Cooling Degree Days Symbology","variableName":"Raster"}]
+						<br><br>
+						<b>Sample Export Image Task:</b>  https://asdc-arcgis.larc.nasa.gov/server/rest/services/power_climatology/power_801_climatology_1984_2013_lst/ImageServer/exportImage?f=image&renderingRule={"rasterFunction":"Aggregate Temperature Symbology","variableName":"Raster"}&mosaicRule={"mosaicMethod":"esriMosaicNone","where":"\"slice_alias\" = 'January'","ascending":true,"mosaicOperation":"MT_FIRST","multidimensionalDefinition":[{"variableName":"t2m","dimensionName":"datatype","values":[0],"isSlice":true}]}&bbox=-17720673,-1012512,12335588,4818715&imageSR=102100&bboxSR=102100&size=1536,298				
+			
+				
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+     
+
+      </section>
+	  
+    </div>
+    <!-- /.content -->
+    <!-- End of Page Content -->
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+    </div>
+    <!-- Default to the left -->
+    <center><p>FirstGov - Your First Click to the US Government + <a href="http://www.nasa.gov/about/highlights/HP_Privacy.html" target="_blank">NASA Privacy Statement, Disclaimer, and Accessibility Certification</a> | NASA - National Aeronautics and Space Administration | Page Curator: <a href="mailto:power-project@lists.nasa.gov">POWER Project Team</a> | NASA Official: Paul Stackhouse | Contact <a href="http://www.nasa.gov/about/contact/index.html" target="_blank">NASA</a> | Last modified 12/09/2018</p></center>
+  </footer>
+
+
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/app.min.js"></script>
+<!-- DataTables -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+  $(function () {
+    //$("#example1").DataTable();
+   // $('#example2').DataTable({"paging": true,"lengthChange": false,"searching": false,"ordering": true,"info": true,"autoWidth": false});
+  });
+</script>
+
+
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
+</body>
+</html>
